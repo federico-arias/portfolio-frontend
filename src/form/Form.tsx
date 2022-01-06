@@ -1,26 +1,40 @@
-import { createContext, useState, useContext, useMemo, Dispatch, SetStateAction } from 'react';
+import { FormEventHandler, createContext, useState, useContext, useMemo, Dispatch, SetStateAction, FunctionComponent } from 'react'
+import { useEffect } from "react"
 
 type FormStateType = {
-  status: string // 'ok' | 'submitted' | 'errored'
-  setFormStatus: Dispatch<SetStateAction<string>> | (() => void)
+  status: boolean // is submitted or not?
+  setFormStatus?: Dispatch<SetStateAction<boolean>>
 }
 
-const FormState = createContext<FormStateType>({
-  status: 'ok',
-  setFormStatus: () => {},
-});
+export const FormState = createContext<FormStateType>({status: false});
 
-export const Form = (props: any) => {
-  const [status, setFormStatus] = useState('ok');
+type FormProps = {
+  onSubmit: () => void
+}
+
+export const Form: FunctionComponent<FormProps> = ({ onSubmit, children }) => {
+  const [status, setFormStatus] = useState(false);
+  /*
   const value = useMemo(
     () => ({ status, setFormStatus}), 
     [status]
-  );
+  )
+  useEffect(() => () => setFormStatus(false))
+   */
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (ev) => {
+    console.log("triggered")
+    ev.preventDefault()
+    setFormStatus(true)
+    if (false) {
+      onSubmit()
+    }
+  }
 
   return (
-    <FormState.Provider value={value}>
-      <form onSubmit={props.onSubmit}>
-        {props.children}
+    <FormState.Provider value={{status, setFormStatus}}>
+      <form onSubmit={handleSubmit}>
+        {children}
       </form>
     </FormState.Provider>
   );

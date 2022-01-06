@@ -1,79 +1,62 @@
-import React from 'react';
-import './App.css';
-//import { Input } from './form'
-/*
+import 'react-dates/initialize';
+import React from 'react'
+import './App.css'
+import './BookingForm'
+import { Formik, FormikHelpers } from 'formik'
+import { BookReservation } from './BookingForm'
+import moment, { Moment } from 'moment'
+import axios from 'axios'
 
-https://gitlab.com/limehome/interviews/fullstack-challenge/-/raw/master/design/booking-form.png
+type Values = {
+  firstName: string,
+  lastName: string,
+  numberOfGuests: number,
+  startDate: Moment,
+  endDate: Moment,
+  billingAddress: string,
+  billingCountry: string, 
+  postalCode: string,
+  city: string, 
+  email: string,  
+  phone: string,
+}
 
-primary button: a2ab98
-primary text: 4b4b4d
-Form border: 9b9fa3
-attention: ea414d
-background: f7f1e9
+const initialValues = {
+  firstName: "",
+  lastName:"",
+  numberOfGuests: 2,
+  startDate: moment(),
+  endDate: moment().add(4, 'days'),
+  billingAddress: "",
+  billingCountry: "",
+  postalCode: "",
+  city: "",
+  email: "",
+  phone: "",
+}
 
-
-separation: 14px
-form-height: 100px
-form-width: 700px
-
-Book your suite at limehome
-
-
-Check-in/out dates*
-First Name
-Billing Address
-Postal Code
-Email
-
-Number of guests
-Last Name
-Billing Country
-City
-Phone number
-
-Book Now
-
-<Form onSubmit={handle}>
-  <TwoColLayout>
-    <LeftColumn>
-      <DatePicker 
-        label="Check-in/out dates" 
-        errors={errors.checkin} 
-        validate={isRequired}
-      />
-      <TextInput label="First Name" name="first-name" errors={errors.checkin} />
-      <TextInput label="Billing Address" name="first-name" errors={errors.checkin} />
-      <NumberInput label="PostalCode" name="first-name" errors={errors.checkin} />
-      <TextInput label="Email" />
-    </LeftColumn>
-    <RightColumn>
-      <NumberInput label="Number of guests" name="first-name" errors={errors.checkin} />
-      <TextInput label="Last Name" name="first-name" errors={errors.checkin} />
-      <Select options={}>
-    </RightColumn>
-  </TwoColLayout>
-</Form>
-
- */
 function App() {
-  //const {} = useFetch("/api/v1/reservation")
+  const isSubmitting = false
+  const addReservation = async (values: Values, { setSubmitting, resetForm }: FormikHelpers<Values>) => {
+    try {
+      await axios.post('/reservation', values)
+      console.log(values)
+      setSubmitting(false)
+      resetForm()
+      window.alert("Form sent successfuly")
+    } catch (err) {
+      //setError(err)
+      window.alert("Error sending form")
+    }
+  }
   return (
-    <div className="App">
-      <form>
-        <h1>Book your suite at limehome</h1>
-        <div>
-          <div>
-            <label>First Name
-              <input name="foo" placeholder="First Name" />
-            </label>
-          </div>
-          <div>
-            <label>Last Name
-              <input type="number" name="foo" placeholder="First Name" />
-            </label>
-          </div>
-        </div>
-      </form>
+    <div className="app">
+      <Formik
+        onSubmit={addReservation}
+        initialValues={initialValues}
+      >
+        {BookReservation}
+      </Formik>
     </div>
   );
 }
