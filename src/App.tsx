@@ -1,24 +1,62 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import 'react-dates/initialize';
+import React from 'react'
+import './App.css'
+import './BookingForm'
+import { Formik, FormikHelpers } from 'formik'
+import { BookReservation } from './BookingForm'
+import moment, { Moment } from 'moment'
+import axios from 'axios'
+
+type Values = {
+  firstName: string,
+  lastName: string,
+  numberOfGuests: number,
+  startDate: Moment,
+  endDate: Moment,
+  billingAddress: string,
+  billingCountry: string, 
+  postalCode: string,
+  city: string, 
+  email: string,  
+  phone: string,
+}
+
+const initialValues = {
+  firstName: "",
+  lastName:"",
+  numberOfGuests: 2,
+  startDate: moment(),
+  endDate: moment().add(4, 'days'),
+  billingAddress: "",
+  billingCountry: "",
+  postalCode: "",
+  city: "",
+  email: "",
+  phone: "",
+}
 
 function App() {
+  const isSubmitting = false
+  const addReservation = async (values: Values, { setSubmitting, resetForm }: FormikHelpers<Values>) => {
+    try {
+      await axios.post('/reservation', values)
+      //resetForm()
+      window.alert("Form sent successfuly")
+    } catch (err) {
+      //setError(err)
+      window.alert("Error sending form")
+    } finally {
+      setSubmitting(false)
+    }
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <Formik
+        onSubmit={addReservation}
+        initialValues={initialValues}
+      >
+        {BookReservation}
+      </Formik>
     </div>
   );
 }
