@@ -1,14 +1,16 @@
-import {FocusedInputShape, DateRangePicker, SingleDatePicker, DayPickerRangeController } from 'react-dates';
-import 'react-dates/lib/css/_datepicker.css';
-import moment, {Moment}from 'moment'
+import { FocusedInputShape, DateRangePicker } from 'react-dates'
+import 'react-dates/lib/css/_datepicker.css'
+import moment, { Moment } from 'moment'
 import { useState } from 'react'
 import styled from "styled-components"
+import './Date.css'
+import { Container } from './Container'
 
 type handleDataChangeProps = {
   startDate: Moment | null
   endDate: Moment | null
 }
-export const DatePicker = ({ label, onChange, value0, value1 }: any) => {
+export const DatePicker = ({ label, onChange, value0, value1, required }: any) => {
 
   const handleDateChange = ({ startDate, endDate }: handleDataChangeProps) => {
     const start = { target: { name: 'startDate', value: startDate}}
@@ -17,12 +19,12 @@ export const DatePicker = ({ label, onChange, value0, value1 }: any) => {
     onChange(end)
   }
 
-  const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>("endDate")
+  const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(null)
 
   return (
-    <>
+    <Container>
     <Label>
-      {label}
+      {label} {required && <sup>*</sup> }
     </Label>
     <DateRangePicker
       minDate={moment().add(1, 'day')}
@@ -33,8 +35,9 @@ export const DatePicker = ({ label, onChange, value0, value1 }: any) => {
       onDatesChange={handleDateChange} 
       focusedInput={focusedInput} 
       onFocusChange={setFocusedInput} 
+      showDefaultInputIcon={true}
     />
-    </>
+    </Container>
   )
 }
 

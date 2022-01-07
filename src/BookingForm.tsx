@@ -1,15 +1,12 @@
 import { TwoColLayout, LeftCol, RightCol } from './layout/TwoColumn'
 import { DatePicker } from './form'
-import { TextInput, Button, Dropdown } from './form'
+import { Input, Button, Dropdown } from './form'
 import { FormikHandlers, FormikState, Form } from 'formik'
 import { isOfLength } from './validation'
 import countries from './countries.json'
-
-type Props = FormikState<any> & FormikHandlers
-
 const options = countries.map( c => ({ value: c.code, label: c.name }))
 
-//[["city", "City", true, "lastName"]]
+type Props = FormikState<any> & FormikHandlers
 export const BookReservation = ({
   isSubmitting, 
   handleSubmit, 
@@ -30,8 +27,9 @@ export const BookReservation = ({
               value0={values.startDate}
               value1={values.endDate}
               onChange={handleChange}
+              required={true}
             />
-            <TextInput
+            <Input
               name="firstName"
               label="First Name"
               validate={isOfLength(3)}
@@ -40,7 +38,7 @@ export const BookReservation = ({
               onChange={handleChange}
               value={values.firstName}
             />
-            <TextInput
+            <Input
               name="billingAddress"
               label="Billing Address"
               validate={isOfLength(3)}
@@ -49,16 +47,16 @@ export const BookReservation = ({
               onChange={handleChange}
               value={values.billingAddress}
             />
-            <TextInput
+            <Input
               name="postalCode"
               label="Postal Code"
-              validate={isOfLength(3)}
               errors={touched.postalCode && errors.postalCode}
               required={true}
               onChange={handleChange}
               value={values.postalCode}
+              type="number"
             />
-            <TextInput
+            <Input
               name="email"
               label="Email"
               validate={isOfLength(3)}
@@ -74,10 +72,11 @@ export const BookReservation = ({
               label="Country"
               onChange={handleChange}
               error={errors.country as any}
+              required={true}
               options={options}
               value={values.country}
             />
-            <TextInput
+            <Input
               name="lastName"
               label="Last Name"
               validate={isOfLength(3)}
@@ -86,7 +85,7 @@ export const BookReservation = ({
               onChange={handleChange}
               value={values.lastName}
             />
-            <TextInput
+            <Input
               name="city"
               label="City"
               validate={isOfLength(3)}
@@ -95,7 +94,7 @@ export const BookReservation = ({
               onChange={handleChange}
               value={values.city}
             />
-            <TextInput
+            <Input
               name="phone"
               label="Phone Number"
               validate={isOfLength(5)}
@@ -107,8 +106,8 @@ export const BookReservation = ({
           </RightCol>
         </TwoColLayout>
         <Button 
+          isLoading={isSubmitting}
           disabled={isSubmitting} 
-          type="submit"
         >
           Book now
         </Button> 

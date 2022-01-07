@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Select from 'react-select'
 import styled from "styled-components"
+import { Container } from './Container'
 
 const customStyles = {
   option: (provided: any, state: any) => ({
@@ -10,8 +11,8 @@ const customStyles = {
   control: (provided: any, state: any) => ({
     ...provided,
     backgroundColor: "transparent",
-    height: "55px",
-    border: "1px solid red",
+    height: "50px",
+    border: "2px solid #9b9fa3",
     borderRadius: "0",
     fontFamily: "sans-serif",
     fontSize: "1rem",
@@ -36,6 +37,7 @@ type Props = {
   error: string
   options: Option[]
   value: any
+  required: boolean
 }
 
 /*
@@ -45,16 +47,17 @@ const handleChangeAdapter = (hc: any, value: string, name: string) => (value: an
   hc({ target: { value: value.value, name } })
 }
 
-export const Dropdown = ({ name, label, onChange, error, options, value }: Props) => {
+export const Dropdown = ({ name, label, onChange, error, options, value, required }: Props) => {
   return (
-    <>
-  <Label>{label}</Label>
+    <Container>
+      <Label>{label} {required && <sup>*</sup> }
+      </Label>
   <Select 
     options={options} 
     styles={customStyles} 
     onChange={handleChangeAdapter(onChange, value, name)} 
   />
-    </>
+    </Container > 
 )}
 
 const Label = styled.label`

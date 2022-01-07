@@ -40,13 +40,13 @@ function App() {
   const addReservation = async (values: Values, { setSubmitting, resetForm }: FormikHelpers<Values>) => {
     try {
       await axios.post('/reservation', values)
-      console.log(values)
-      setSubmitting(false)
-      resetForm()
+      //resetForm()
       window.alert("Form sent successfuly")
     } catch (err) {
       //setError(err)
       window.alert("Error sending form")
+    } finally {
+      setSubmitting(false)
     }
   }
   return (

@@ -1,26 +1,28 @@
-import { useState, useContext, ChangeEvent } from "react"
-import { FormState } from './Form'
+import { ChangeEvent } from "react"
 import { Errors } from './Error'
 import { Field } from 'formik'
 import styled from "styled-components"
+import { Label } from './Label'
+import { Container } from './Container'
 
-type TextInputProps = {
+type InputProps = {
   label: string
   name: string
   value: string
   required: boolean
-  onChange: (e: ChangeEvent<any>) => void;
+  onChange: (e: ChangeEvent<any>) => void
   errors: any
-  validate: any
+  validate?: (arg0: string) => string | void
+  type?: "number" | "text" 
 }
 
-export const TextInput = ({ validate, name, label, value, required, onChange, errors }: TextInputProps) => {
+export const Input = ({ validate, name, label, value, required, onChange, errors, type = "text" }: InputProps) => {
   return (
     <Container>
       <Label>{label} { required && <sup>*</sup> }
-        <Input 
+        <InputField
           id={name}
-          type="text" 
+          type={type}
           name={name} 
           placeholder={label} 
           validate={validate}
@@ -33,25 +35,7 @@ export const TextInput = ({ validate, name, label, value, required, onChange, er
   )
 }
 
-export const NumberInput = TextInput
-
-const Container = styled.div`
-  margin-bottom: 1.6rem;
-`
-
-const Label = styled.label`
-  line-height: 2;
-  font-weight: 400;
-  font-size: 1.2rem;
-  display: block;
-  color: #4b4b4d;
-  & sup {
-    color: #ea414d;
-    font-weight: 900;
-  }
-`
-
-const Input = styled(Field)`
+const InputField = styled(Field)`
   color: #4b4b4d;
   font-weight: 400;
   min-width: 21rem;
