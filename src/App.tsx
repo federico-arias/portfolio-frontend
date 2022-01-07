@@ -1,11 +1,13 @@
 import 'react-dates/initialize';
-import React from 'react'
+import React, {useState} from 'react'
 import './App.css'
 import './BookingForm'
 import { Formik, FormikHelpers } from 'formik'
 import { BookReservation } from './BookingForm'
 import moment, { Moment } from 'moment'
 import axios from 'axios'
+import { AlertMessage } from './components/Alert'
+import Alert from '@mui/material/Alert';
 
 type Values = {
   firstName: string,
@@ -36,21 +38,24 @@ const initialValues = {
 }
 
 function App() {
-  const isSubmitting = false
+  const [apiError, setApiError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<boolean>(false)
   const addReservation = async (values: Values, { setSubmitting, resetForm }: FormikHelpers<Values>) => {
+    setApiError(null)
+    setSuccess(false)
     try {
-      await axios.post('/reservation', values)
-      //resetForm()
-      window.alert("Form sent successfuly")
+      await axios.post('http://google.com/reservation', values)
+      setSuccess(true)
     } catch (err) {
-      //setError(err)
-      window.alert("Error sending form")
+      setApiError(`An error ocurred submiting your form: ${err}`)
     } finally {
       setSubmitting(false)
     }
   }
   return (
     <div className="app">
+      <AlertMessage message={apiError} />
+      {success && <Alert>Form submited!</Alert> }
       <Formik
         onSubmit={addReservation}
         initialValues={initialValues}

@@ -43,7 +43,8 @@ type Props = {
 /*
  * Formik expects a regular onChange handler.
  */
-const handleChangeAdapter = (hc: any, value: string, name: string) => (value: any) => {
+const handleChangeAdapter = (hc: any, name: string) => (value: any) => {
+  console.log(value)
   hc({ target: { value: value.value, name } })
 }
 
@@ -55,7 +56,7 @@ export const Dropdown = ({ name, label, onChange, error, options, value, require
   <Select 
     options={options} 
     styles={customStyles} 
-    onChange={handleChangeAdapter(onChange, value, name)} 
+    onChange={handleChangeAdapter(onChange, name)} 
   />
     </Container > 
 )}

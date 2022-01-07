@@ -68,13 +68,13 @@ export const BookReservation = ({
           </LeftCol>
           <RightCol>
             <Dropdown 
-              name="country"
+              name="billingCountry"
               label="Country"
               onChange={handleChange}
-              error={errors.country as any}
+              error={errors.billingCountry as any}
               required={true}
               options={options}
-              value={values.country}
+              value={values.billingCountry}
             />
             <Input
               name="lastName"
