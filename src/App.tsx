@@ -44,7 +44,7 @@ function App() {
     setApiError(null)
     setSuccess(false)
     try {
-      await axios.post('http://google.com/reservation', values)
+      await axios.post('/api/v1/reservation', values)
       setSuccess(true)
     } catch (err) {
       setApiError(`An error ocurred submiting your form: ${err}`)
