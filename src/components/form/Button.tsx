@@ -2,11 +2,11 @@ import styled from "styled-components"
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     children: React.ReactNode
-    isLoading: boolean
+    isLoading: boolean 
 };
 
 
-export const Button = ({isLoading, children, ...props}: ButtonProps) => {
+export const Button = ({isLoading = false, children, ...props}: ButtonProps) => {
   const Content = isLoading ? <Spinner /> : children
 
   return (

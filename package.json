@@ -24,6 +24,7 @@
     "react-dates": "^21.8.0",
     "react-dom": "^16.14.0",
     "react-hook-form": "^7.22.5",
+    "react-router-dom": "6",
     "react-scripts": "5.0.0",
     "react-select": "^5.2.1",
     "react-with-direction": "^1.4.0",
