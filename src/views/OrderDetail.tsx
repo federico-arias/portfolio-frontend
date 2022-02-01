@@ -1,49 +1,42 @@
 import { useParams } from "react-router-dom"
-import { Alert, BackButton } from "../components"
-import styled from "styled-components"
+import { Alert, BackButton, Title, Text } from "../components"
+import { ArticleList } from "./ArticleList"
+import { useDataApi } from '../hooks/useDataApi'
 
+// get order (tracking + last checkpoint) by number
 export const OrderDetail = () => {
-  let { id } = useParams();
+  let { id } = useParams()
+  const [state, setUrl] = useDataApi(`/orders/${id}`, [])
+
+  if (state.isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (state.error) {
+    return <Alert message={state?.error?.message} />
+  }
+
+  if (!state.data[0]) {
+    return null
+  }
+
+  const { status_text, status_details, orderNo, tracking_number, street, zip_code, city, email } = state.data[0]
+
   return <>
-    <BackButton to="/" />
+    <BackButton to={`/orders?email=${email}`} />
+    <h1>Order {orderNo}</h1>
+
+    <Title>Delivery Address</Title>
+    <Text>{street} {zip_code} {city}</Text>
+
+    <Title>Tracking Number</Title>
+    <Text>{tracking_number}</Text>
+
+    <Title>Delivery Status</Title>
+    <Text>{status_text}: {status_details}</Text>
+
     <h2>Articles</h2>
-    <OrderArticle /> 
+    <ArticleList orderNo={orderNo}/>
   </>
 }
-
-type Props = {
-  articleImageUrl: string
-  articleNo: string
-  quantity: string
-  product_name: string
-}
-
-//const OrderArticle = ({articleImageUrl, articleNo, quantity, product_name }: Props) => {
-const OrderArticle = ({}) => {
-  return (
-    <Row>
-      <div>
-        x1
-      </div>
-      <div>
-        <img src="http://cdn.parcellab.com/img/sales-cannon/parcellab-cap.jpg" />
-      </div>
-      <div>
-          parcelLab Tote Bag
-      </div>
-    </Row>
-  )
-}
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-    justify-content: center;
-  border-bottom: 1px solid grey;
-  align-items: center;
-
-  & div {
-    padding: 2rem;
-  }
-`
 

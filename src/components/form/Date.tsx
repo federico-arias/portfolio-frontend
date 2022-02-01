@@ -23,20 +23,20 @@ export const DatePicker = ({ label, onChange, value0, value1, required }: any) =
 
   return (
     <Container>
-    <Label>
-      {label} {required && <sup>*</sup> }
-    </Label>
-    <DateRangePicker
-      minDate={moment().add(1, 'day')}
-      startDate={value0} 
-      startDateId="s" 
-      endDate={value1} 
-      endDateId="e" 
-      onDatesChange={handleDateChange} 
-      focusedInput={focusedInput} 
-      onFocusChange={setFocusedInput} 
-      showDefaultInputIcon={true}
-    />
+      <Label>
+        {label} {required && <sup>*</sup> }
+      </Label>
+      <DateRangePicker
+        minDate={moment().add(1, 'day')}
+        startDate={value0} 
+        startDateId="s" 
+        endDate={value1} 
+        endDateId="e" 
+        onDatesChange={handleDateChange} 
+        focusedInput={focusedInput} 
+        onFocusChange={setFocusedInput} 
+        showDefaultInputIcon={true}
+      />
     </Container>
   )
 }

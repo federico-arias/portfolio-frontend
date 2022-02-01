@@ -1,12 +1,12 @@
 import { useSearchParams } from "react-router-dom"
 import { useDataApi } from '../hooks/useDataApi'
-import { Alert, BackButton } from "../components"
+import { Alert, BackButton, Title, Text } from "../components"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 
 export const OrderList = () => {
   const [searchParams] = useSearchParams()
-  const [state, setUrl] = useDataApi(`/trackings?email=${searchParams.get("email")}`, [])
+  const [state, setUrl] = useDataApi(`/orders?email=${searchParams.get("email")}`, [])
 
   if (state.error) {
     return <Alert message={state?.error?.message} />
@@ -16,11 +16,11 @@ export const OrderList = () => {
     return <h1>Loading...</h1>
   }
 
-  return <>
+  return ( <>
     <BackButton to="/" />
     <h1>Your Orders</h1>
-    {state.data.filter((_: any) => true).map(OrderListItem)}
-  </>
+    {state.data.map(OrderListItem)}
+  </>)
 }
 
 type Props = {
@@ -39,13 +39,13 @@ const OrderListItem = ({ orderNo, status, street, zip_code, city, tracking_numbe
       <TwoColLayout>
         <LeftCol>
           <Title>Order Number</Title>
-          {orderNo}
+          <Text>{orderNo}</Text>
           <Title>Delivery Address</Title>
-          {street}
-          {zip_code} {city}
+          <Text>{street} {zip_code} {city}</Text>
         </LeftCol>
         <RightCol>
-          <Title>Current Status</Title>
+          <Title align="right">Current Status</Title>
+          <Text>{status}</Text>
         </RightCol>
       </TwoColLayout>
       <Footer>
@@ -73,10 +73,7 @@ export const Footer = styled.div`
 export const TwoColLayout = styled.div`
   display: flex;
   flex-direction: row;
-`
-
-export const Title = styled.h3`
-    font-weight: 800;
+  justify-content: space-between;
 `
 
 export const LeftCol = styled.div`
