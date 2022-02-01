@@ -10,6 +10,7 @@ type State<T> = {
     data: T
     isLoading: boolean
     isError: boolean
+    error?: Error 
 }
 
 const dataFetchReducer = <T>(state: State<T>, action: Action): State<T> => {
@@ -32,9 +33,10 @@ const dataFetchReducer = <T>(state: State<T>, action: Action): State<T> => {
         ...state,
         isLoading: false,
         isError: true,
+        error: action.payload
       };
     default:
-      throw new Error();
+      throw new Error('invalid action');
   }
 };
 
@@ -61,7 +63,7 @@ export const useDataApi = <T = any>(initialUrl: string, initialData: T): [State<
         }
       } catch (error) {
         if (!didCancel) {
-          dispatch({ type: 'FETCH_FAILURE' });
+          dispatch({ type: 'FETCH_FAILURE' , payload: error});
         }
       }
     };

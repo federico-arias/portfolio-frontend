@@ -1,6 +1,6 @@
 import React from 'react'
 import { Routes, Route } from "react-router-dom"
-import { NotFound, EmailSearch, OrderList } from './views'
+import { NotFound, EmailSearch, OrderList, OrderDetail } from './views'
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
       <Route path="*" element={<NotFound/>} />
       <Route path="/" element={<EmailSearch />} />
       <Route path="/orders" element={<OrderList/>} />
-      <Route path="/checkpoints" element={<NotFound />} />
+      <Route path="/orders/:id/detail" element={<OrderDetail/>} />
     </Routes>
   );
 }
