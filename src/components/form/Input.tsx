@@ -39,6 +39,7 @@ const InputField = styled(Field)`
   color: #4b4b4d;
   font-weight: 400;
   min-width: 21rem;
+  width: 100%;
   font-size: 1.1rem;
   display: block;
   border: 2px solid #9b9fa3;
@@ -52,6 +53,9 @@ const InputField = styled(Field)`
   &:placeholder {
     color: #9fa3ac;
   }
+
+  &:hover {
+
 
   &:-webkit-autofill,
   &:-internal-autofill-selected {

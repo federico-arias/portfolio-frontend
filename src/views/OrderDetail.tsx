@@ -1,4 +1,9 @@
+import { useSearchParams } from "react-router-dom"
 
-export const Item = () => {
+export const OrderDetail = () => {
+  const [searchParams] = useSearchParams()
   return <>f</>
+}
+
+const OrderContentItem = ({}) => {
 }

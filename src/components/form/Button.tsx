@@ -10,7 +10,7 @@ export const Button = ({isLoading = false, children, ...props}: ButtonProps) => 
   const Content = isLoading ? <Spinner /> : children
 
   return (
-    <StyledButton type="submit" {...props} >
+    <StyledButton disabled={isLoading} type="submit" {...props} >
       {Content}
     </StyledButton>
   )
@@ -71,5 +71,6 @@ export const StyledButton = styled.button`
 
   &:hover {
     cursor: pointer;
+    background-color: #373c31;
   }
 `
